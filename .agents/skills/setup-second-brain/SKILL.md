@@ -17,14 +17,16 @@ description: Use when setting up, verifying, or troubleshooting the Second Brain
 2. Install frontend dependencies with `npm install`.
 3. Install backend dependencies with `cd server && npm install`.
 4. Create backend env with `npm run setup`.
-5. Set `VAULT_PATH=/absolute/path/to/Obsidian Vault` in `server/.env`.
-6. Keep `PORT=8787` unless another local service needs that port.
-7. Set `CLAUDE_BIN` only when backend `/api/ai` should use a non-default Claude CLI path.
-8. Create the app vault surface with `npm run setup:vault`.
-9. Check local readiness with `npm run doctor`.
-10. Start both dev servers with `npm run dev:all`, or run `cd server && npm run dev` and `npm run dev` in separate terminals.
-11. Verify `curl -sS http://localhost:8787/api/health`.
-12. Open `http://localhost:5173`.
+5. Ask the local user for the Obsidian vault root before continuing.
+6. Do not guess the vault path from usernames, home directories, or machine defaults.
+7. Set `VAULT_PATH=/absolute/path/to/Obsidian Vault` in `server/.env`.
+8. Keep `PORT=8787` unless another local service needs that port.
+9. Set `CLAUDE_BIN` only when backend `/api/ai` should use a non-default Claude CLI path.
+10. Create the app vault surface with `npm run setup:vault`.
+11. Check local readiness with `npm run doctor`.
+12. Start both dev servers with `npm run dev:all`, or run `cd server && npm run dev` and `npm run dev` in separate terminals.
+13. Verify `curl -sS http://localhost:8787/api/health`.
+14. Open `http://localhost:5173`.
 
 ## Demo Vault
 

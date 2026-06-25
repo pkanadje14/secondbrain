@@ -18,6 +18,8 @@
 
 ## Setup
 - Configure backend env with `npm run setup`.
+- Stop setup until the local user manually provides the Obsidian vault root.
+- Do not guess `VAULT_PATH` from usernames, home directories, or machine defaults.
 - Set `VAULT_PATH=/absolute/path/to/Obsidian Vault` in `server/.env`.
 - Create `Second Brain/` with `npm run setup:vault`.
 - Check local readiness with `npm run doctor`.

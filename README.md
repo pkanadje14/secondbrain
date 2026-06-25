@@ -35,19 +35,22 @@ cd ..
 npm run setup
 ```
 
-Set `VAULT_PATH` in `server/.env` to the vault root:
+Each local setup must manually set `VAULT_PATH` in `server/.env` to that
+machine's Obsidian vault root. Do not guess this path from usernames, home
+directories, or machine defaults:
 
 ```dotenv
 VAULT_PATH=/absolute/path/to/Obsidian Vault
 PORT=8787
-CLAUDE_BIN=/opt/homebrew/bin/claude
+# Optional: set only when Claude CLI is not on PATH.
+# CLAUDE_BIN=/absolute/path/to/claude
 ```
 
 `CLAUDE_BIN` is optional unless `/api/ai` should invoke a non-default Claude CLI path.
 The frontend uses `/api/ai` through the backend by default; set `VITE_AI_ENDPOINT` in
 the root `.env` only when overriding that route.
 
-Scaffold and verify the vault surface:
+After `VAULT_PATH` is set, scaffold and verify the vault surface:
 
 ```bash
 npm run setup:vault
@@ -163,8 +166,8 @@ raw source material Claude Code can ingest from.
 3. **Local grounded brain** — a zero-config heuristic that answers strictly from
    the notes. Home chat disables this fallback so those answers come from AI.
 
-Set `CLAUDE_BIN` in `server/.env` if the Claude CLI is not at
-`/opt/homebrew/bin/claude`. Set `VITE_AI_ENDPOINT` only when overriding `/api/ai`.
+Set `CLAUDE_BIN=/absolute/path/to/claude` in `server/.env` if the Claude CLI is
+not on `PATH`. Set `VITE_AI_ENDPOINT` only when overriding `/api/ai`.
 
 ## Structure
 
