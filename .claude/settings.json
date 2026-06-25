@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'cd \"${SECOND_BRAIN_ROOT:-.}\" && ./start.sh'",
+            "async": true,
+            "timeout": 120,
+            "statusMessage": "Starting Second Brain servers…"
+          },
+          {
+            "type": "command",
+            "command": "bash -lc 'cd \"${SECOND_BRAIN_ROOT:-.}\" && ./calendar-pull-hook.sh'",
+            "async": true,
+            "timeout": 60,
+            "statusMessage": "Pulling today's calendar…"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'cd \"${SECOND_BRAIN_ROOT:-.}\" && ./hmg-daily-hook.sh'",
+            "async": true,
+            "timeout": 60,
+            "statusMessage": "Rolling today into HMG…"
+          }
+        ]
+      }
+    ]
+  }
+}

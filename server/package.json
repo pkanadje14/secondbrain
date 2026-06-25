@@ -1,0 +1,20 @@
+{
+  "name": "second-brain-server",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Reads an Obsidian vault's Second Brain/ folder and serves it as JSON to a React app.",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "node --test",
+    "track:anthropic-news": "node scripts/track-anthropic-news.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "gray-matter": "^4.0.3"
+  }
+}

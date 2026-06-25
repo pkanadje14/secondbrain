@@ -1,0 +1,333 @@
+/* ==========================================================================
+   Fetch Design System — Colors & Type
+   --------------------------------------------------------------------------
+   Single source of truth for foundation tokens. Always prefer the
+   `--fetch-*` semantic tokens in components over raw palette values.
+   ========================================================================== */
+
+/* --- Typeface — WeGo Sans (brand) + Figtree (fallback) ------------------ */
+/* WeGo Sans is Fetch's custom brand face. Figtree is loaded from Google
+   Fonts as a fallback so type degrades gracefully if WeGo Sans fails to load. */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Light.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-LightItalic.woff2') format('woff2'); font-weight: 300; font-style: italic; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-MediumItalic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Semibold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-SemiboldItalic.woff2') format('woff2'); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-BoldItalic.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-ExtraBold.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-ExtraBoldItalic.woff2') format('woff2'); font-weight: 800; font-style: italic; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Black.woff2') format('woff2'); font-weight: 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-BlackItalic.woff2') format('woff2'); font-weight: 900; font-style: italic; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-Ultra.woff2') format('woff2'); font-weight: 950; font-style: normal; font-display: swap; }
+@font-face { font-family: 'WeGo Sans'; src: url('/fonts/WeGoSans-UltraItalic.woff2') format('woff2'); font-weight: 950; font-style: italic; font-display: swap; }
+
+
+:root {
+  /* ------------------------------------------------------------------ */
+  /* EXTENDED PALETTE — source of truth                                 */
+  /* ------------------------------------------------------------------ */
+
+  /* Orange */
+  --fetch-orange-5:   #FFFDEF; --fetch-orange-10:  #FCF4D7;
+  --fetch-orange-20:  #FFDE72; --fetch-orange-30:  #FFC439;
+  --fetch-orange-40:  #FFA900; --fetch-orange-50:  #FF8C00;
+  --fetch-orange-60:  #E86400; --fetch-orange-70:  #C74200;
+  --fetch-orange-80:  #A82E0C; --fetch-orange-90:  #7B1F0F;
+  --fetch-orange-100: #66100B; --fetch-orange-110: #510B0F;
+  --fetch-orange-120: #2A0507;
+
+  /* Yellow */
+  --fetch-yellow-5:   #FFFDEF; --fetch-yellow-10:  #FFFAD6;
+  --fetch-yellow-20:  #FFF191; --fetch-yellow-30:  #FFDE00;
+  --fetch-yellow-40:  #FFC300; --fetch-yellow-50:  #FAAF00;
+  --fetch-yellow-60:  #DB8F00; --fetch-yellow-70:  #B26201;
+  --fetch-yellow-80:  #914001; --fetch-yellow-90:  #7B3303;
+  --fetch-yellow-100: #652306; --fetch-yellow-110: #4F1805;
+  --fetch-yellow-120: #2E0804;
+
+  /* Green */
+  --fetch-green-5:    #FAFFEF; --fetch-green-10:   #EEFCD3;
+  --fetch-green-20:   #D3F9A0; --fetch-green-30:   #A7F161;
+  --fetch-green-40:   #77D636; --fetch-green-50:   #47BE29;
+  --fetch-green-60:   #169C2E; --fetch-green-70:   #1C8744;
+  --fetch-green-80:   #166E44; --fetch-green-90:   #15533D;
+  --fetch-green-100:  #0E3C31; --fetch-green-110:  #0A302D;
+  --fetch-green-120:  #061B1C;
+
+  /* Teal */
+  --fetch-teal-5:     #F8FFF5; --fetch-teal-10:    #E7FFE7;
+  --fetch-teal-20:    #C2FFDB; --fetch-teal-30:    #6BF0C6;
+  --fetch-teal-40:    #00E5B8; --fetch-teal-50:    #00C5AB;
+  --fetch-teal-60:    #00A9A0; --fetch-teal-70:    #007E89;
+  --fetch-teal-80:    #00637A; --fetch-teal-90:    #004765;
+  --fetch-teal-100:   #00395F; --fetch-teal-110:   #002955;
+  --fetch-teal-120:   #00183C;
+
+  /* Sky */
+  --fetch-sky-5:      #F6FFFC; --fetch-sky-10:     #E2FFFB;
+  --fetch-sky-20:     #B7F4F7; --fetch-sky-30:     #87E5FF;
+  --fetch-sky-40:     #55C9FF; --fetch-sky-50:     #2DB3FF;
+  --fetch-sky-60:     #059CFF; --fetch-sky-70:     #0977D8;
+  --fetch-sky-80:     #0C62B1; --fetch-sky-90:     #10448A;
+  --fetch-sky-100:    #0E3373; --fetch-sky-110:    #0E2560;
+  --fetch-sky-120:    #08143F;
+
+  /* Blue */
+  --fetch-blue-5:     #F1F9FD; --fetch-blue-10:    #EDF5FB;
+  --fetch-blue-20:    #D7E8F8; --fetch-blue-30:    #B1D2F8;
+  --fetch-blue-40:    #70AAF2; --fetch-blue-50:    #4B90EE;
+  --fetch-blue-60:    #2576E9; --fetch-blue-70:    #005CE5;
+  --fetch-blue-80:    #233EC5; --fetch-blue-90:    #3032AE;
+  --fetch-blue-100:   #292683; --fetch-blue-110:   #201C6D;
+  --fetch-blue-120:   #151146;
+
+  /* Blurple — brand primary accent */
+  --fetch-blurple-5:   #FDF6FF; --fetch-blurple-10:  #FAEFFF;
+  --fetch-blurple-20:  #F4E3FF; --fetch-blurple-30:  #E3C3FF;
+  --fetch-blurple-40:  #CAA5FD; --fetch-blurple-50:  #AD85FF;
+  --fetch-blurple-60:  #8C60FA; --fetch-blurple-70:  #7A45FF;
+  --fetch-blurple-80:  #5636D3; --fetch-blurple-90:  #462DB0;
+  --fetch-blurple-100: #35238D; --fetch-blurple-110: #251A6B;
+  --fetch-blurple-120: #141048;
+
+  /* Purple */
+  --fetch-purple-5:   #FFF8FD; --fetch-purple-10:  #FFF0FA;
+  --fetch-purple-20:  #FEE1FA; --fetch-purple-30:  #F9C3F9;
+  --fetch-purple-40:  #F296F1; --fetch-purple-50:  #E668EB;
+  --fetch-purple-60:  #BD38D8; --fetch-purple-70:  #A408C7;
+  --fetch-purple-80:  #7818A8; --fetch-purple-90:  #60158F;
+  --fetch-purple-100: #4A0F7A; --fetch-purple-110: #371164;
+  --fetch-purple-120: #1E093D;
+
+  /* Pink */
+  --fetch-pink-5:     #FFF7F6; --fetch-pink-10:    #FFF1F1;
+  --fetch-pink-20:    #FFE0E2; --fetch-pink-30:    #FFC0D1;
+  --fetch-pink-40:    #FF7FAE; --fetch-pink-50:    #FF57AC;
+  --fetch-pink-60:    #DB35A4; --fetch-pink-70:    #C02CA0;
+  --fetch-pink-80:    #931F91; --fetch-pink-90:    #6D177F;
+  --fetch-pink-100:   #571769; --fetch-pink-110:   #420F56;
+  --fetch-pink-120:   #290A3C;
+
+  /* Red */
+  --fetch-red-5:      #FFF8F0; --fetch-red-10:     #FEEDE2;
+  --fetch-red-20:     #FBDBC7; --fetch-red-30:     #F9B0A1;
+  --fetch-red-40:     #F7867C; --fetch-red-50:     #F45B56;
+  --fetch-red-60:     #F23030; --fetch-red-70:     #D72427;
+  --fetch-red-80:     #B5143F; --fetch-red-90:     #8B0C36;
+  --fetch-red-100:    #700A2F; --fetch-red-110:    #560828;
+  --fetch-red-120:   #3B0521;
+
+  /* Brown */
+  --fetch-brown-5:    #FBF6F1; --fetch-brown-10:   #ECE1D0;
+  --fetch-brown-20:   #DDCBAE; --fetch-brown-30:   #CFB68D;
+  --fetch-brown-40:   #C0A06B; --fetch-brown-50:   #B18B4A;
+  --fetch-brown-60:   #9B7538; --fetch-brown-70:   #856025;
+  --fetch-brown-80:   #6F4A13; --fetch-brown-90:   #593400;
+  --fetch-brown-100:  #4B2801; --fetch-brown-110:  #3C1C02;
+  --fetch-brown-120:  #2E1003;
+
+  /* Grey */
+  --fetch-grey-0:     #FFFFFF; --fetch-grey-5:     #F8F7F8;
+  --fetch-grey-10:    #F4F3F5; --fetch-grey-20:    #EDEBEE;
+  --fetch-grey-30:    #D8D6DB; --fetch-grey-40:    #BAB6BE;
+  --fetch-grey-50:    #98949F; --fetch-grey-60:    #868291;
+  --fetch-grey-70:    #736E80; --fetch-grey-80:    #5B566C;
+  --fetch-grey-90:    #3F3B4E; --fetch-grey-100:   #302D3E;
+  --fetch-grey-110:   #232131; --fetch-grey-120:   #141320;
+  --fetch-grey-130:   #000000;
+
+  /* Transparent Black — overlay of #302D3E */
+  --fetch-tblack-a10: rgba(48, 45, 62, 0.10);
+  --fetch-tblack-a20: rgba(48, 45, 62, 0.20);
+  --fetch-tblack-a30: rgba(48, 45, 62, 0.30);
+  --fetch-tblack-a40: rgba(48, 45, 62, 0.40);
+  --fetch-tblack-a50: rgba(48, 45, 62, 0.50);
+  --fetch-tblack-a60: rgba(48, 45, 62, 0.60);
+  --fetch-tblack-a70: rgba(48, 45, 62, 0.70);
+  --fetch-tblack-a80: rgba(48, 45, 62, 0.80);
+  --fetch-tblack-a90: rgba(48, 45, 62, 0.90);
+
+  /* Transparent White — overlay of #FFFFFF */
+  --fetch-twhite-a10: rgba(255, 255, 255, 0.10);
+  --fetch-twhite-a20: rgba(255, 255, 255, 0.20);
+  --fetch-twhite-a30: rgba(255, 255, 255, 0.30);
+  --fetch-twhite-a40: rgba(255, 255, 255, 0.40);
+  --fetch-twhite-a50: rgba(255, 255, 255, 0.50);
+  --fetch-twhite-a60: rgba(255, 255, 255, 0.60);
+  --fetch-twhite-a70: rgba(255, 255, 255, 0.70);
+  --fetch-twhite-a80: rgba(255, 255, 255, 0.80);
+  --fetch-twhite-a90: rgba(255, 255, 255, 0.90);
+
+  /* ------------------------------------------------------------------ */
+  /* CORE PALETTE — friendly aliases                                    */
+  /* ------------------------------------------------------------------ */
+
+  --fetch-orange-lightest: var(--fetch-orange-10);
+  --fetch-orange-lighter:  var(--fetch-orange-20);
+  --fetch-orange-core:     var(--fetch-orange-40);
+  --fetch-orange-dark:     var(--fetch-orange-70);
+  --fetch-orange-darker:   var(--fetch-orange-90);
+  --fetch-orange-darkest:  var(--fetch-orange-110);
+
+  --fetch-yellow-core:     var(--fetch-yellow-30);
+  --fetch-green-core:      var(--fetch-green-40);
+  --fetch-teal-core:       var(--fetch-teal-40);
+  --fetch-sky-core:        var(--fetch-sky-60);
+  --fetch-blue-core:       var(--fetch-blue-70);
+  --fetch-blurple-core:    var(--fetch-blurple-70);
+  --fetch-purple-core:     var(--fetch-purple-70);
+  --fetch-pink-core:       var(--fetch-pink-50);
+  --fetch-red-core:        var(--fetch-red-60);
+  --fetch-brown-core:      var(--fetch-brown-90);
+
+  /* ------------------------------------------------------------------ */
+  /* SEMANTIC TOKENS — prefer these in components                        */
+  /* ------------------------------------------------------------------ */
+
+  /* Surface */
+  --fetch-surface-bg-primary:            var(--fetch-grey-0);
+  --fetch-surface-bg-secondary:          var(--fetch-grey-5);
+  --fetch-surface-bg-tertiary:           var(--fetch-grey-20);
+  --fetch-surface-bg-primary-inverse:    var(--fetch-grey-90);
+  --fetch-surface-bg-secondary-inverse:  var(--fetch-grey-70);
+  --fetch-surface-bg-tertiary-inverse:   var(--fetch-grey-50);
+  --fetch-surface-card-primary:          var(--fetch-grey-0);
+  --fetch-surface-card-primary-inverse:  var(--fetch-grey-90);
+  --fetch-surface-scrim:                 var(--fetch-tblack-a60);
+
+  /* Text */
+  --fetch-text-primary:            var(--fetch-grey-100);
+  --fetch-text-secondary:          var(--fetch-tblack-a70);
+  --fetch-text-tertiary:           var(--fetch-tblack-a50);
+  --fetch-text-primary-inverse:    var(--fetch-grey-0);
+  --fetch-text-secondary-inverse:  var(--fetch-twhite-a70);
+  --fetch-text-tertiary-inverse:   var(--fetch-twhite-a60);
+  --fetch-text-link:               var(--fetch-blurple-70);
+  --fetch-text-positive:           var(--fetch-green-60);
+  --fetch-text-warn:               var(--fetch-orange-50);
+  --fetch-text-negative:           var(--fetch-red-70);
+
+  /* Icon — mirrors text */
+  --fetch-icon-primary:            var(--fetch-grey-100);
+  --fetch-icon-secondary:          var(--fetch-tblack-a70);
+  --fetch-icon-tertiary:           var(--fetch-tblack-a50);
+  --fetch-icon-primary-inverse:    var(--fetch-grey-0);
+  --fetch-icon-secondary-inverse:  var(--fetch-twhite-a70);
+  --fetch-icon-tertiary-inverse:   var(--fetch-twhite-a60);
+  --fetch-icon-link:               var(--fetch-blurple-70);
+  --fetch-icon-positive:           var(--fetch-green-60);
+  --fetch-icon-warn:               var(--fetch-orange-50);
+  --fetch-icon-negative:           var(--fetch-red-70);
+
+  /* Border */
+  --fetch-border-divider-primary:           var(--fetch-tblack-a20);
+  --fetch-border-divider-secondary:         var(--fetch-tblack-a10);
+  --fetch-border-divider-primary-inverse:   var(--fetch-twhite-a20);
+  --fetch-border-divider-secondary-inverse: var(--fetch-twhite-a10);
+  --fetch-border-card-primary:              var(--fetch-tblack-a20);
+  --fetch-border-card-secondary:            var(--fetch-tblack-a10);
+  --fetch-border-card-primary-inverse:      var(--fetch-twhite-a20);
+  --fetch-border-card-secondary-inverse:    var(--fetch-twhite-a10);
+
+  /* ------------------------------------------------------------------ */
+  /* SHADOWS — elevation                                                */
+  /* ------------------------------------------------------------------ */
+  --fetch-shadow-1: 0px 0px 3px 1px rgba(37, 26, 107, 0.06), 0px 1px 2px rgba(37, 26, 107, 0.06);
+  --fetch-shadow-2: 0px 0px 3px 1px rgba(37, 26, 107, 0.04), 0px 4px 6px -1px rgba(37, 26, 107, 0.08), 0px 2px 4px -1px rgba(37, 26, 107, 0.03);
+  --fetch-shadow-3: 0px 0px 3px 1px rgba(37, 26, 107, 0.05), 0px 8px 12px -2px rgba(37, 26, 107, 0.07), 0px 4px 6px -2px rgba(37, 26, 107, 0.04);
+  --fetch-shadow-4: 0px 0px 3px 1px rgba(37, 26, 107, 0.05), 0px 12px 15px -4px rgba(37, 26, 107, 0.07), 0px 7px 8px -3px rgba(37, 26, 107, 0.03);
+  --fetch-shadow-5: 0px 0px 3px 1px rgba(37, 26, 107, 0.06), 0px 16px 20px -4px rgba(37, 26, 107, 0.13);
+
+  /* ------------------------------------------------------------------ */
+  /* TYPOGRAPHY                                                         */
+  /* ------------------------------------------------------------------ */
+  --fetch-font-sans: 'WeGo Sans', 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* Weights — full WeGo Sans range */
+  --fetch-fw-light:     300;
+  --fetch-fw-regular:   400;
+  --fetch-fw-medium:    500;
+  --fetch-fw-semibold:  600;
+  --fetch-fw-bold:      700;
+  --fetch-fw-extrabold: 800;
+  --fetch-fw-black:     900;
+  --fetch-fw-ultra:     950;
+
+  /* Size / line-height pairs (px, 0% tracking per spec) */
+  --fetch-type-huge-size:   32px; --fetch-type-huge-lh:   40px;
+  --fetch-type-xl-size:     28px; --fetch-type-xl-lh:     36px;
+  --fetch-type-lg-size:     24px; --fetch-type-lg-lh:     32px;
+  --fetch-type-md-size:     20px; --fetch-type-md-lh:     28px;
+  --fetch-type-base-size:   16px; --fetch-type-base-lh:   24px;
+  --fetch-type-sm-size:     14px; --fetch-type-sm-lh:     20px;
+  --fetch-type-tiny-size:   12px; --fetch-type-tiny-lh:   16px;
+  --fetch-type-mini-size:   10px; --fetch-type-mini-lh:   16px;
+
+  /* ------------------------------------------------------------------ */
+  /* RADII — inferred from app conventions (cards, chips)               */
+  /* ------------------------------------------------------------------ */
+  --fetch-radius-xs:  4px;
+  --fetch-radius-sm:  8px;
+  --fetch-radius-md:  12px;
+  --fetch-radius-lg:  16px;
+  --fetch-radius-xl:  24px;
+  --fetch-radius-full: 999px;
+
+  /* ------------------------------------------------------------------ */
+  /* SPACING — 4px base                                                 */
+  /* ------------------------------------------------------------------ */
+  --fetch-space-1:  4px;
+  --fetch-space-2:  8px;
+  --fetch-space-3:  12px;
+  --fetch-space-4:  16px;
+  --fetch-space-5:  20px;
+  --fetch-space-6:  24px;
+  --fetch-space-8:  32px;
+  --fetch-space-10: 40px;
+  --fetch-space-12: 48px;
+  --fetch-space-16: 64px;
+}
+
+/* ==========================================================================
+   SEMANTIC TYPE CLASSES
+   Apply to elements to get the full Fetch type treatment. Use alongside
+   tag reset below.
+   ========================================================================== */
+
+html, body {
+  font-family: var(--fetch-font-sans);
+  color: var(--fetch-text-primary);
+  background: var(--fetch-surface-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Explicit type ramp — use either the class or the semantic tag. */
+.fetch-huge,          h1.fetch          { font-size: var(--fetch-type-huge-size); line-height: var(--fetch-type-huge-lh); font-weight: var(--fetch-fw-regular); letter-spacing: 0; }
+.fetch-huge-strong,   h1.fetch.strong   { font-size: var(--fetch-type-huge-size); line-height: var(--fetch-type-huge-lh); font-weight: var(--fetch-fw-bold); }
+
+.fetch-xl,            h2.fetch          { font-size: var(--fetch-type-xl-size); line-height: var(--fetch-type-xl-lh); font-weight: var(--fetch-fw-regular); }
+.fetch-xl-strong,     h2.fetch.strong   { font-size: var(--fetch-type-xl-size); line-height: var(--fetch-type-xl-lh); font-weight: var(--fetch-fw-bold); }
+
+.fetch-lg,            h3.fetch          { font-size: var(--fetch-type-lg-size); line-height: var(--fetch-type-lg-lh); font-weight: var(--fetch-fw-regular); }
+.fetch-lg-strong,     h3.fetch.strong   { font-size: var(--fetch-type-lg-size); line-height: var(--fetch-type-lg-lh); font-weight: var(--fetch-fw-bold); }
+
+.fetch-md,            h4.fetch          { font-size: var(--fetch-type-md-size); line-height: var(--fetch-type-md-lh); font-weight: var(--fetch-fw-regular); }
+.fetch-md-strong,     h4.fetch.strong   { font-size: var(--fetch-type-md-size); line-height: var(--fetch-type-md-lh); font-weight: var(--fetch-fw-semibold); }
+
+.fetch-base,          p.fetch           { font-size: var(--fetch-type-base-size); line-height: var(--fetch-type-base-lh); font-weight: var(--fetch-fw-regular); }
+.fetch-base-strong,   p.fetch.strong    { font-size: var(--fetch-type-base-size); line-height: var(--fetch-type-base-lh); font-weight: var(--fetch-fw-semibold); }
+
+.fetch-sm,            small.fetch       { font-size: var(--fetch-type-sm-size); line-height: var(--fetch-type-sm-lh); font-weight: var(--fetch-fw-regular); }
+.fetch-sm-strong,     small.fetch.strong{ font-size: var(--fetch-type-sm-size); line-height: var(--fetch-type-sm-lh); font-weight: var(--fetch-fw-semibold); }
+
+.fetch-tiny           { font-size: var(--fetch-type-tiny-size); line-height: var(--fetch-type-tiny-lh); font-weight: var(--fetch-fw-regular); }
+.fetch-tiny-strong    { font-size: var(--fetch-type-tiny-size); line-height: var(--fetch-type-tiny-lh); font-weight: var(--fetch-fw-semibold); }
+
+.fetch-mini           { font-size: var(--fetch-type-mini-size); line-height: var(--fetch-type-mini-lh); font-weight: var(--fetch-fw-regular); letter-spacing: 0.02em; text-transform: uppercase; }
+.fetch-mini-strong    { font-size: var(--fetch-type-mini-size); line-height: var(--fetch-type-mini-lh); font-weight: var(--fetch-fw-semibold); letter-spacing: 0.02em; text-transform: uppercase; }
