@@ -104,6 +104,49 @@ export SECOND_BRAIN_ROOT=/absolute/path/to/second-brain
 The hook scripts write logs and daily markers under `.logs/`. They use `claude` from
 `PATH` unless `HMG_CLAUDE_BIN` is set.
 
+## Hourly Refresh Automation
+
+`refresh-all.sh` runs the Claude Code `/refresh-all` command headlessly. That command
+pulls Google Calendar, saved Slack, and Zoom into the `Second Brain/` vault surface,
+then the backend watcher pushes changes to the app.
+
+The hourly Codex automation runs:
+
+```bash
+/bin/bash /Users/p.kanadje/Desktop/repos/context/second-brain/refresh-all.sh
+```
+
+Claude Code auth for this automation uses a one-year OAuth token from
+`claude setup-token`, stored in macOS Keychain. The wrapper reads the token at runtime
+and passes it only to the child `claude` process as `CLAUDE_CODE_OAUTH_TOKEN`.
+
+Generate and store the token:
+
+```bash
+claude setup-token
+printf "Paste Claude token: "
+stty -echo
+IFS= read -r CLAUDE_TOKEN
+stty echo
+printf "\n"
+/usr/bin/security add-generic-password \
+  -a refresh-all \
+  -s second-brain-claude-code-oauth-token \
+  -w "$CLAUDE_TOKEN" \
+  -U
+unset CLAUDE_TOKEN
+```
+
+Verify local automation health:
+
+```bash
+npm run doctor
+/bin/bash ./refresh-all.sh
+```
+
+Rotate the Keychain token before its one-year expiry by running `claude setup-token`
+again and replacing the same Keychain item.
+
 ## Troubleshooting
 
 - First setup check — run `npm run doctor`.
@@ -112,6 +155,9 @@ The hook scripts write logs and daily markers under `.logs/`. They use `claude` 
 - Empty state from `/api/state` — run `npm run setup:vault`.
 - Frontend cannot load data — confirm the backend is running on `http://localhost:8787` or set `VITE_API_BASE`.
 - `Claude CLI not found` — set `CLAUDE_BIN` in `server/.env` for backend AI calls, or `HMG_CLAUDE_BIN` for hook scripts.
+- `Not logged in` from Claude CLI — run `claude auth login`, or use the Keychain token setup above for automation.
+- `Claude OAuth token missing` from `refresh-all.sh` — run `claude setup-token` and store the token in Keychain service `second-brain-claude-code-oauth-token`, account `refresh-all`.
+- Failed Claude MCP connectors — reconnect the named Claude MCP/app integrations, then re-run `npm run doctor`.
 - `listen EPERM` or watch startup failures — run the dev servers in a local terminal with permissions to bind ports and watch files.
 
 Architecture + the full frontmatter/API contract: `docs/vault-architecture.md`.
