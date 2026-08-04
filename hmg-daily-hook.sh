@@ -6,6 +6,7 @@
 #   2) Once-per-day guard: only the first session-end of the day triggers a run.
 # Detached + logged so quitting a session never blocks.
 set -euo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH:-}"
 
 # (1) recursion/cascade guard — any automated headless child sets SB_HOOK_CHILD, so
 # neither this hook nor the calendar hook re-spawns from a child's session events.

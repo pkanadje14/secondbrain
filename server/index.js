@@ -18,6 +18,7 @@ const CLAUDE_BIN = process.env.CLAUDE_BIN || process.env.HMG_CLAUDE_BIN || "/opt
 const AI_TIMEOUT_MS = Number(process.env.AI_TIMEOUT_MS) || 90_000;
 const AI_PROMPT_MAX = Number(process.env.AI_PROMPT_MAX) || 120_000;
 const execFileAsync = promisify(execFile);
+const CLAUDE_AUTH_ERROR = "Claude CLI is installed but not authenticated. Run `claude auth login` or `claude setup-token` on this machine.";
 
 if (!VAULT_PATH) {
   console.error(
@@ -182,6 +183,22 @@ function formatClaudePrompt(messages) {
   ].join("\n\n");
 }
 
+function summarizeClaudeFailure(err) {
+  if (err.code === "ENOENT") {
+    return `Claude CLI not found at ${CLAUDE_BIN}; set CLAUDE_BIN in server/.env`;
+  }
+
+  const output = [err.stdout, err.stderr, err.message]
+    .filter((value) => typeof value === "string" && value.trim())
+    .join("\n");
+
+  if (output.includes("Not logged in")) {
+    return CLAUDE_AUTH_ERROR;
+  }
+
+  return err.message;
+}
+
 app.post("/api/ai", async (req, res) => {
   const messages = normalizeChatMessages(req.body?.messages);
   if (!messages) {
@@ -207,9 +224,7 @@ app.post("/api/ai", async (req, res) => {
   } catch (err) {
     const timedOut = err.killed || err.signal === "SIGTERM";
     const status = timedOut ? 504 : 502;
-    const detail = err.code === "ENOENT"
-      ? `Claude CLI not found at ${CLAUDE_BIN}; set CLAUDE_BIN in server/.env`
-      : err.message;
+    const detail = timedOut ? "AI request timed out" : summarizeClaudeFailure(err);
     console.error(`POST /api/ai failed: ${detail}`);
     return res.status(status).json({ error: timedOut ? "AI request timed out" : "AI request failed", detail });
   }

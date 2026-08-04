@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 # refresh-all.sh - run the Claude Code /refresh-all command headlessly.
 #
-# The Claude OAuth token is read from macOS Keychain at runtime and is only
-# passed to the child claude process. It is never written to logs.
+# The Claude OAuth token is read from .env at runtime (see claude-token.sh) and
+# is only passed to the child claude process. It is never written to logs.
+#
+# .env rather than Keychain: a scheduled (non-interactive) run cannot satisfy a
+# Keychain item's ACL — there is no UI to approve the access — so every cron
+# tick failed at `security find-generic-password` before Claude ever started.
 set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH:-}"
 
@@ -11,10 +15,10 @@ LOGS="$ROOT/.logs"; mkdir -p "$LOGS"
 LOG_FILE="$LOGS/refresh-all.log"
 SUMMARY_LOG="$LOGS/refresh.log"
 CLAUDE_BIN="${HMG_CLAUDE_BIN:-/opt/homebrew/bin/claude}"
-SECURITY_BIN="${SECOND_BRAIN_SECURITY_BIN:-/usr/bin/security}"
-KEYCHAIN_SERVICE="${SECOND_BRAIN_CLAUDE_TOKEN_SERVICE:-second-brain-claude-code-oauth-token}"
-KEYCHAIN_ACCOUNT="${SECOND_BRAIN_CLAUDE_TOKEN_ACCOUNT:-refresh-all}"
 CMD="/refresh-all"
+
+# shellcheck source=claude-token.sh
+. "$ROOT/claude-token.sh"
 
 LOCKDIR="$LOGS/.refresh-all.lock"
 if [ -d "$LOCKDIR" ] && [ -n "$(find "$LOCKDIR" -maxdepth 0 -mmin +30 2>/dev/null)" ]; then
@@ -28,21 +32,9 @@ trap 'rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
 
 echo "$(date '+%F %T') refresh-all: start $CMD" >>"$SUMMARY_LOG"
 
-if [ ! -x "$SECURITY_BIN" ]; then
-  echo "$(date '+%F %T') refresh-all: macOS Keychain helper not found at $SECURITY_BIN" >>"$SUMMARY_LOG"
-  echo "Missing macOS Keychain helper. Expected executable: $SECURITY_BIN" >>"$LOG_FILE"
-  exit 1
-fi
-
-if ! CLAUDE_TOKEN="$("$SECURITY_BIN" find-generic-password -a "$KEYCHAIN_ACCOUNT" -s "$KEYCHAIN_SERVICE" -w 2>/dev/null)"; then
-  echo "$(date '+%F %T') refresh-all: claude oauth token missing from Keychain" >>"$SUMMARY_LOG"
-  echo "Claude OAuth token missing. Run 'claude setup-token' and store it in Keychain service '$KEYCHAIN_SERVICE' with account '$KEYCHAIN_ACCOUNT'." >>"$LOG_FILE"
-  exit 1
-fi
-
-if [ -z "$CLAUDE_TOKEN" ]; then
-  echo "$(date '+%F %T') refresh-all: claude oauth token empty in Keychain" >>"$SUMMARY_LOG"
-  echo "Claude OAuth token in Keychain is empty. Replace service '$KEYCHAIN_SERVICE' account '$KEYCHAIN_ACCOUNT'." >>"$LOG_FILE"
+if ! resolve_claude_token "$ROOT"; then
+  echo "$(date '+%F %T') refresh-all: claude token unavailable" >>"$SUMMARY_LOG"
+  echo "$CLAUDE_TOKEN_ERROR" >>"$LOG_FILE"
   exit 1
 fi
 

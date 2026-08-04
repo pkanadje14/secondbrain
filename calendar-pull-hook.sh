@@ -6,6 +6,7 @@
 #   2) Once-per-day guard: only the first session of the day pulls the calendar.
 # Detached + logged so opening a session never blocks.
 set -euo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH:-}"
 
 # (1) cascade guard.
 [ -n "${SB_HOOK_CHILD:-}" ] && exit 0

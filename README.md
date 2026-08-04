@@ -110,42 +110,60 @@ The hook scripts write logs and daily markers under `.logs/`. They use `claude` 
 pulls Google Calendar, saved Slack, and Zoom into the `Second Brain/` vault surface,
 then the backend watcher pushes changes to the app.
 
-The hourly Codex automation runs:
+### Auth
 
-```bash
-/bin/bash /Users/p.kanadje/Desktop/repos/context/second-brain/refresh-all.sh
-```
+Claude Code auth for this automation uses a long-lived OAuth token from
+`claude setup-token`, read from `.env` at runtime by `claude-token.sh` and passed only
+to the child `claude` process as `CLAUDE_CODE_OAUTH_TOKEN`. It is never logged, and it
+is exported rather than passed on the command line so it does not appear in `ps` output.
 
-Claude Code auth for this automation uses a one-year OAuth token from
-`claude setup-token`, stored in macOS Keychain. The wrapper reads the token at runtime
-and passes it only to the child `claude` process as `CLAUDE_CODE_OAUTH_TOKEN`.
+Resolution order — first non-empty wins:
+
+1. `SECOND_BRAIN_CLAUDE_TOKEN` in `.env`
+2. `SECOND_BRAIN_CLAUDE_TOKEN` in `server/.env`
+3. `CLAUDE_CODE_OAUTH_TOKEN` already exported in the environment
+
+`refresh.sh` additionally falls back to the CLI's own stored credentials
+(`claude auth status`) when no token is configured, which is what the SessionStart and
+SessionEnd hooks use interactively.
 
 Generate and store the token:
 
 ```bash
 claude setup-token
-printf "Paste Claude token: "
-stty -echo
-IFS= read -r CLAUDE_TOKEN
-stty echo
-printf "\n"
-/usr/bin/security add-generic-password \
-  -a refresh-all \
-  -s second-brain-claude-code-oauth-token \
-  -w "$CLAUDE_TOKEN" \
-  -U
-unset CLAUDE_TOKEN
+# paste the token into .env (untracked; .env and .env.* are gitignored):
+#   SECOND_BRAIN_CLAUDE_TOKEN=<token>
 ```
+
+macOS Keychain was used previously and does not work for scheduled runs: a
+non-interactive launchd or cron job cannot satisfy a Keychain item's ACL, because there
+is no UI to approve the access, so every tick failed at `security find-generic-password`
+before Claude started.
+
+### Schedule
+
+```bash
+./install-launchd.sh              # hourly agent, idempotent
+./install-launchd.sh --uninstall
+```
+
+launchd rather than cron: on a laptop that sleeps, a cron tick during sleep is skipped
+outright, while `StartInterval` refires once the interval has elapsed after wake. The
+agent runs in the `gui` domain because the Claude MCP connectors and the Obsidian REST
+endpoint are user-session scoped.
+
+`install-cron.sh` remains for the tiered per-source pulls (`refresh.sh calendar|slack|zoom`).
 
 Verify local automation health:
 
 ```bash
 npm run doctor
 /bin/bash ./refresh-all.sh
+launchctl kickstart -p "gui/$(id -u)/com.secondbrain.refresh-all"   # force a run
 ```
 
-Rotate the Keychain token before its one-year expiry by running `claude setup-token`
-again and replacing the same Keychain item.
+Rotate the token before its expiry by running `claude setup-token` again and replacing
+the value in `.env`.
 
 ## Troubleshooting
 
@@ -155,8 +173,9 @@ again and replacing the same Keychain item.
 - Empty state from `/api/state` — run `npm run setup:vault`.
 - Frontend cannot load data — confirm the backend is running on `http://localhost:8787` or set `VITE_API_BASE`.
 - `Claude CLI not found` — set `CLAUDE_BIN` in `server/.env` for backend AI calls, or `HMG_CLAUDE_BIN` for hook scripts.
-- `Not logged in` from Claude CLI — run `claude auth login`, or use the Keychain token setup above for automation.
-- `Claude OAuth token missing` from `refresh-all.sh` — run `claude setup-token` and store the token in Keychain service `second-brain-claude-code-oauth-token`, account `refresh-all`.
+- `Not logged in` from Claude CLI — run `claude auth login`, or use the `.env` token setup above for automation.
+- `no Claude token found` from `refresh-all.sh` — run `claude setup-token` and set `SECOND_BRAIN_CLAUDE_TOKEN` in `.env`.
+- `SECOND_BRAIN_CLAUDE_TOKEN is set but empty` — the key exists with no value; paste the token or remove the line.
 - Failed Claude MCP connectors — reconnect the named Claude MCP/app integrations, then re-run `npm run doctor`.
 - `listen EPERM` or watch startup failures — run the dev servers in a local terminal with permissions to bind ports and watch files.
 
